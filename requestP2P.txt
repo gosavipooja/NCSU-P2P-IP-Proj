@@ -1,0 +1,4 @@
+GET RFC 1234 P2P-CI/1.0
+Host: somehost.csc.ncsu.edu
+OS: Mac OS 10.4.1
+
