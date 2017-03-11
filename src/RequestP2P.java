@@ -1,3 +1,5 @@
+import java.io.DataInputStream;
+import java.io.IOException;
 import java.util.*;
 
 public class RequestP2P {
@@ -8,26 +10,32 @@ public class RequestP2P {
 	int rfcNum;
 	String version;
 
-	public RequestP2P(Scanner sc)
+	public RequestP2P(DataInputStream dis)
 	{
 		headers = new HashMap<>();
 		
-		parseFirstLine(sc);
-		
-		while(parseLine(sc));
+		try {
+			parseFirstLine(dis);
+			while(parseLine(dis));
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
-	private void parseFirstLine(Scanner sc)
+	private void parseFirstLine(DataInputStream dis) throws IOException
 	{
-		this.method = sc.next();
-		sc.next();//Ignore "RFC"
-		this.rfcNum = sc.nextInt();
-		this.version = sc.nextLine();
+		String line = dis.readLine();
+		String[] tokens = line.split(" ");
+		this.method = tokens[0];
+		//Ignore tokens[1]="RFC"
+		this.rfcNum = Integer.parseInt(tokens[2]);
+		this.version = tokens[3];
 	}
 	
-	private boolean parseLine(Scanner sc)
+	private boolean parseLine(DataInputStream dis) throws IOException
 	{
-		String line = sc.nextLine();
+		String line = dis.readLine();
 		
 		if(line.compareTo("")==0 || line==null)
 			return false;

@@ -18,11 +18,7 @@ public class ResponseP2P {
 		{
 			parseFirstLine(dis);
 			while(parseLine(dis));
-			
-			int len = Integer.parseInt( headers.get("Content-Length") );
-			byte b[] = new byte[len];
-			int n = dis.read(b);
-			this.data = new String(b,"UTF-8");
+			getData(dis);
 		}
 		catch (IOException e) 
 		{
@@ -54,5 +50,13 @@ public class ResponseP2P {
 		headers.put(tokens[0], tokens[1]);
 		return true;
 		
+	}
+	
+	private void getData(DataInputStream dis) throws IOException
+	{
+		int len = Integer.parseInt( headers.get("Content-Length") );
+		byte b[] = new byte[len];
+		int n = dis.read(b);
+		this.data = new String(b,"UTF-8");
 	}
 }

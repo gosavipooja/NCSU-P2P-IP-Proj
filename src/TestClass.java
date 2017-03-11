@@ -10,6 +10,7 @@ public class TestClass {
 		TestClass m = new TestClass();
 		m.peerTests();
 		m.checkResponseP2P();
+		m.checkRequestP2P();
 	}
 	
 	public void peerTests(){
@@ -36,6 +37,20 @@ public class TestClass {
 			DataInputStream dis = new DataInputStream(new FileInputStream("responseP2P.txt"));
 			@SuppressWarnings("unused")
 			ResponseP2P r = new ResponseP2P(dis);
+			
+		} 
+		catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void checkRequestP2P()
+	{
+		try 
+		{
+			DataInputStream dis = new DataInputStream(new FileInputStream("requestP2P.txt"));
+			@SuppressWarnings("unused")
+			RequestP2P r = new RequestP2P(dis);
 			
 		} 
 		catch (FileNotFoundException e) {
