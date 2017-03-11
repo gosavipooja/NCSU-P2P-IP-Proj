@@ -21,6 +21,13 @@ public class RFC implements Comparable<RFC>{
 		
 		return -1;
 	}
+	
+	@Override
+	public String toString()
+	{
+		return "[RFC "+rfc_num+" | Title: "+title+" | Host: "+host_name;
+	}
+	
 
 
 }

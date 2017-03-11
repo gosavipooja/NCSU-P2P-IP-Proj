@@ -1,3 +1,7 @@
+import java.io.DataInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 
 public class TestClass {
 
@@ -5,6 +9,7 @@ public class TestClass {
 		// TODO Auto-generated method stub
 		TestClass m = new TestClass();
 		m.peerTests();
+		m.checkResponseP2P();
 	}
 	
 	public void peerTests(){
@@ -22,5 +27,19 @@ public class TestClass {
 		boolean b = pm.deletePeer("TrialPeer HostName 2");
 		System.out.println(b);
 	//	pm.printPeers();
+	}
+	
+	public void checkResponseP2P()
+	{
+		try 
+		{
+			DataInputStream dis = new DataInputStream(new FileInputStream("responseP2P.txt"));
+			@SuppressWarnings("unused")
+			ResponseP2P r = new ResponseP2P(dis);
+			
+		} 
+		catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 }

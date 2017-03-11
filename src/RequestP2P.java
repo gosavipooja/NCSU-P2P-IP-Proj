@@ -10,6 +10,8 @@ public class RequestP2P {
 
 	public RequestP2P(Scanner sc)
 	{
+		headers = new HashMap<>();
+		
 		parseFirstLine(sc);
 		
 		while(parseLine(sc));
