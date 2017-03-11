@@ -60,4 +60,14 @@ public class PeerManager {
 		}
 		return null;
 	}
+	
+	//Uncomment when required
+	
+/*	public void printPeers(){
+ 	//prints all peers in the arraylist
+ 	 
+		for(Peer p : listOfPeers){
+			System.out.println(p);
+		}
+	}*/
 }

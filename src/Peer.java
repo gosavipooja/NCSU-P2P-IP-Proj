@@ -18,4 +18,9 @@ public class Peer {
 	public void setPortNumber(int portNumber) {
 		this.portNumber = portNumber;
 	}
+	@Override
+	public String toString() {
+		return "Peer [hostName=" + hostName + ", portNumber=" + portNumber + "]";
+	}
+	
 }
