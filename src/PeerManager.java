@@ -10,6 +10,7 @@ public class PeerManager {
 	}
 	
 	public static PeerManager getPeerManager(){
+		//returns the instance of PeerManager
 		if(instance != null)	return instance;
 		else{
 			instance = new PeerManager();
@@ -17,8 +18,9 @@ public class PeerManager {
 		}
 	}
 	
-	public void addPeer(Peer p){
+	public void addPeer(String hostName, int portNumber){
 		//Adds a peer to the list
+		Peer p = new Peer(hostName, portNumber);
 		if(listOfPeers == null){
 			listOfPeers = new ArrayList<Peer>();
 		}
@@ -26,23 +28,28 @@ public class PeerManager {
 		System.out.println("Added!");
 	}
 	
-	public boolean deletePeer(Peer p){
+	public boolean deletePeer(String hostName){
 		//Deletes a peer from the list
 		if(listOfPeers == null)	return false;
 		else if(listOfPeers.size() == 0) return false;
 		else{
-			int index = listOfPeers.indexOf(p);
-			if(index == -1){
-				System.out.println("Not Found!");
-				return false;
-			}else{
-				Peer peerToDelete = listOfPeers.get(index);
-				listOfPeers.remove(peerToDelete);
-				System.out.println("Deleted!");
-				return true;
+			Peer p = locatePeer(hostName);
+			if(p == null) return false;
+			else{
+				int index = listOfPeers.indexOf(p);
+				if(index == -1){
+					System.out.println("Not Found!");
+					return false;
+				}else{
+					Peer peerToDelete = listOfPeers.get(index);
+					listOfPeers.remove(peerToDelete);
+					System.out.println("Deleted!");
+					return true;
+				}
 			}
 		}
-	}	
+	}
+	
 	public Peer locatePeer(String hostName){
 		//looks up for the given peer. if exists, returns the peer else return null
 		
@@ -53,7 +60,4 @@ public class PeerManager {
 		}
 		return null;
 	}
-	
-	
-	
 }
