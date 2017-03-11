@@ -1,6 +1,7 @@
 public class Peer {
 	private String hostName;
 	private int portNumber;
+	
 	public String getHostName() {
 		return hostName;
 	}

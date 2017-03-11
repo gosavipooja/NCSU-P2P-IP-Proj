@@ -3,9 +3,18 @@ import java.util.*;
 public class PeerManager {
 	
 	private List<Peer> listOfPeers;
+	private static PeerManager instance;
 	
-	public PeerManager(){
+	private PeerManager(){
 		listOfPeers = new ArrayList<Peer>();
+	}
+	
+	public static PeerManager getPeerManager(){
+		if(instance != null)	return instance;
+		else{
+			instance = new PeerManager();
+			return instance;
+		}
 	}
 	
 	public void addPeer(Peer p){
@@ -34,16 +43,17 @@ public class PeerManager {
 			}
 		}
 	}	
-	public int locatePeer(Peer p){
-		//looks up for the given peer. if exists, return the port number else return -1
-		int index = listOfPeers.indexOf(p);
-		if(index == -1){
-			System.out.println("Not Found!");
-			return -1;
-		}else{
-			Peer foundPeer = listOfPeers.get(index);
-			return foundPeer.getPortNumber();
+	public Peer locatePeer(String hostName){
+		//looks up for the given peer. if exists, returns the peer else return null
+		
+		for(Peer p : listOfPeers){
+			if(p.getHostName().equalsIgnoreCase(hostName)){
+				return p;
+			}
 		}
+		return null;
 	}
+	
+	
 	
 }
