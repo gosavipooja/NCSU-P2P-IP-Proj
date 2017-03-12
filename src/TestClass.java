@@ -1,6 +1,8 @@
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 
 public class TestClass {
@@ -52,8 +54,11 @@ public class TestClass {
 			@SuppressWarnings("unused")
 			RequestP2P r = new RequestP2P(dis);
 			
+			DataOutputStream dos = new DataOutputStream(new FileOutputStream("response"+r.rfcNum+".txt"));
+			ClientUploader.getCleintUploader().generateResponse(r, dos);
+			
 		} 
-		catch (FileNotFoundException e) {
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

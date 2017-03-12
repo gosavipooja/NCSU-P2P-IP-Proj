@@ -45,4 +45,9 @@ public class RequestP2P {
 		return true;
 		
 	}
+	
+	public String getHeaderField(String k)
+	{
+		return this.headers.get(k);
+	}
 }
