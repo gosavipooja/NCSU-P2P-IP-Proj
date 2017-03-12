@@ -1,5 +1,4 @@
 import java.io.*;
-import java.io.IOException;
 import java.util.*;
 
 public class ResponseP2P {
@@ -35,7 +34,7 @@ public class ResponseP2P {
 		phrase = "OK";
 	}
 	
-	public static ResponseP2P createResponse(int statusCode)
+	public static ResponseP2P createResponseHeaders(int statusCode)
 	{
 		ResponseP2P resp = new ResponseP2P();
 		
@@ -127,5 +126,48 @@ public class ResponseP2P {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public static ResponseP2P createResponse(RequestP2P req)
+	{
+		ResponseP2P resp;
+		File file = getRFCFile(req);
+
+		//Validate the request
+		if(!req.method.equalsIgnoreCase("GET"))
+			resp = ResponseP2P.createResponseHeaders(400);//Bad request as method is not supported
+		
+		else if(!Utils.isVersionSupported(req.version))
+			resp = ResponseP2P.createResponseHeaders(505);//Send 505 Version not supported error
+		
+		else if (!file.exists()) 
+			resp = ResponseP2P.createResponseHeaders(404);//send 404 Not Found
+		
+		else 
+		{
+			//Create new ResponseP2P object with 200 OK status 
+			resp = ResponseP2P.createResponseHeaders(200);
+			
+			resp.addHeaderField("Last-Modified",Utils.getLastModified(file));
+			resp.addHeaderField("Content-Length", file.length()+"");
+			resp.addHeaderField("Content-Type", "text/plain");
+			
+			try 
+			{
+				DataInputStream dis = new DataInputStream(new FileInputStream(file));
+				resp.getData(dis);
+			} 
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+			}
+		}
+		
+		return resp;
+	}
+	
+	private static File getRFCFile(RequestP2P req)
+	{
+		return new File("RFC/RFC "+req.rfcNum+".txt");
 	}
 }

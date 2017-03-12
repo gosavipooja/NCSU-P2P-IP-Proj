@@ -11,17 +11,12 @@ public class RequestP2P {
 	int rfcNum;
 	String version;
 
-	public RequestP2P(DataInputStream dis)
+	public RequestP2P(DataInputStream dis)throws IOException
 	{
 		headers = new HashMap<>();
 		
-		try {
-			parseFirstLine(dis);
-			while(parseLine(dis));
-		} 
-		catch (IOException e) {
-			e.printStackTrace();
-		}
+		parseFirstLine(dis);
+		while(parseLine(dis));
 	}
 	
 	public RequestP2P()
@@ -78,7 +73,12 @@ public class RequestP2P {
 		if(line.compareTo("")==0 || line==null)
 			return false;
 		
+		
 		String tokens[] = line.split(": ");
+		
+//		if(tokens.length<2)
+//			return true;
+		
 		headers.put(tokens[0], tokens[1]);
 		return true;
 		

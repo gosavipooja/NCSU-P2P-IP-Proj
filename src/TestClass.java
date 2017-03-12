@@ -14,6 +14,14 @@ public class TestClass {
 //		m.checkResponseP2P();
 //		m.checkRequestP2P();
 		m.checkRequestResponse();
+//		m.checkFileServer();
+		
+	}
+	
+	public void checkFileServer()
+	{
+		FileUploadServer fs = FileUploadServer.getFileServer();
+		fs.initialize();
 	}
 	
 	public void peerTests(){
@@ -33,6 +41,7 @@ public class TestClass {
 	//	pm.printPeers();
 	}
 	
+	/*
 	public void checkResponseP2P()
 	{
 		try 
@@ -56,13 +65,16 @@ public class TestClass {
 			RequestP2P r = new RequestP2P(dis);
 			
 			DataOutputStream dos = new DataOutputStream(new FileOutputStream("response"+r.rfcNum+".txt"));
-			ClientUploader.getCleintUploader().generateResponse(r, dos);
+			FileUploadServer.getFileServer().generateResponse(r, dos);
 			
 		} 
-		catch (Exception e) {
+		catch (Exception e) 
+		{
 			e.printStackTrace();
 		}
+		
 	}
+	*/
 	
 	public void checkRequestResponse()
 	{
@@ -78,7 +90,8 @@ public class TestClass {
 			DataInputStream req_dis = new DataInputStream(new FileInputStream("request.txt"));
 			
 			DataOutputStream dos = new DataOutputStream(new FileOutputStream("response.txt"));
-			ClientUploader.getCleintUploader().generateResponse(req, dos);
+			ResponseP2P resp = ResponseP2P.createResponse(req);
+			resp.sendResponse(dos);
 			
 		} 
 		catch (Exception e) {
@@ -86,4 +99,5 @@ public class TestClass {
 		}
 		
 	}
+	
 }
