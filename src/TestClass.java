@@ -10,9 +10,10 @@ public class TestClass {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		TestClass m = new TestClass();
-		m.peerTests();
-		m.checkResponseP2P();
-		m.checkRequestP2P();
+//		m.peerTests();
+//		m.checkResponseP2P();
+//		m.checkRequestP2P();
+		m.checkRequestResponse();
 	}
 	
 	public void peerTests(){
@@ -61,5 +62,28 @@ public class TestClass {
 		catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void checkRequestResponse()
+	{
+		int rfcNum = 761;
+		
+		try 
+		{
+			RequestP2P req = RequestP2P.createRequest(rfcNum);
+			DataOutputStream req_dos = new DataOutputStream(new FileOutputStream("request.txt"));
+			req.sendRequest(req_dos);
+			
+			
+			DataInputStream req_dis = new DataInputStream(new FileInputStream("request.txt"));
+			
+			DataOutputStream dos = new DataOutputStream(new FileOutputStream("response.txt"));
+			ClientUploader.getCleintUploader().generateResponse(req, dos);
+			
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 }

@@ -1,4 +1,5 @@
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.*;
 
@@ -19,6 +20,43 @@ public class RequestP2P {
 			while(parseLine(dis));
 		} 
 		catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public RequestP2P()
+	{
+		headers = new HashMap<>();
+	}
+	
+	public static RequestP2P createRequest(int rfcNum)
+	{
+		RequestP2P req = new RequestP2P();
+		
+		req.method = "GET";
+		req.rfcNum = rfcNum;
+		req.version = Utils.getVersionString();
+		
+		req.addHeaderField("Host", Utils.getIPAddr());
+		req.addHeaderField("OS", Utils.getOS());
+		
+		return req;
+	}
+	
+	public void sendRequest(DataOutputStream dos)
+	{
+		try
+		{
+			dos.writeBytes(method+" RFC "+rfcNum+" "+version+"\r\n");
+			for(String k:headers.keySet())
+			{
+				dos.writeBytes(k+": "+headers.get(k)+"\r\n");
+			}
+			dos.writeBytes("\r\n");
+			
+		}
+		catch(Exception e)
+		{
 			e.printStackTrace();
 		}
 	}
@@ -49,5 +87,10 @@ public class RequestP2P {
 	public String getHeaderField(String k)
 	{
 		return this.headers.get(k);
+	}
+	
+	public void addHeaderField(String k, String v)
+	{
+		this.headers.put(k, v);
 	}
 }
