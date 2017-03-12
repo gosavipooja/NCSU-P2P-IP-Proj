@@ -13,8 +13,12 @@ public class TestClass {
 //		m.peerTests();
 //		m.checkResponseP2P();
 //		m.checkRequestP2P();
-		m.checkRequestResponse();
-//		m.checkFileServer();
+//		m.checkRequestResponse();
+		if(args[0].equalsIgnoreCase("s"))
+			m.checkFileServer();
+		
+		else if(args[0].equalsIgnoreCase("c"))
+			m.checkFileClient();
 		
 	}
 	
@@ -22,6 +26,17 @@ public class TestClass {
 	{
 		FileUploadServer fs = FileUploadServer.getFileServer();
 		fs.initialize();
+	}
+	
+	public void checkFileClient()
+	{
+		FileDownloadClient f = new FileDownloadClient();
+		try {
+			f.requestFileDownload(761, "");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void peerTests(){

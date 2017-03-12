@@ -56,7 +56,7 @@ public class FileUploadServer {
 		{
 			try 
 			{
-				dos.writeBytes("You are connected\n\r");
+//				dos.writeBytes("You are connected\n\r");
 				while(true)
 				{
 					RequestP2P req = new RequestP2P(dis);
