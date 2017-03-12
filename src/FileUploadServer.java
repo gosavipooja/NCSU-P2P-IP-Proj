@@ -1,15 +1,21 @@
 import java.io.*;
 import java.net.*;
 
-public class FileUploadServer {
+public class FileUploadServer implements Runnable {
 	
-	private static final int UPLOAD_PORT = 1234;
+	public int uploadPort;
 	
 	private static FileUploadServer instance;
 	
 	private FileUploadServer()
 	{
-		
+		uploadPort = Client.getClient().port;
+	}
+	
+	@Override
+	public void run() 
+	{
+		initialize();
 	}
 	
 	public static FileUploadServer getFileServer()
@@ -22,7 +28,7 @@ public class FileUploadServer {
 	{
 		try 
 		{
-			ServerSocket ssock = new ServerSocket(UPLOAD_PORT);
+			ServerSocket ssock = new ServerSocket(uploadPort);
 			
 			while(true)
 			{
@@ -67,17 +73,24 @@ public class FileUploadServer {
 			} 
 			catch (Exception e) 
 			{
+				//TODO: Find out why NULL is sent when the socket is closed
 				e.printStackTrace();
 			}
 			finally 
 			{
-//				dis.close();
-//				dos.close();
+				try {
+					sock.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
+			
 			
 		}
 		
 		
 
 	}
+
+	
 }
