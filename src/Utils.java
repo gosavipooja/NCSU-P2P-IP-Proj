@@ -5,8 +5,6 @@ import java.text.SimpleDateFormat;
 
 public class Utils {
 	
-	public static final float VERSION = 1.0f;
-	
 	public static String getIPAddr()
 	{
 		try {
@@ -21,7 +19,7 @@ public class Utils {
 	public static boolean isVersionSupported(String ver)
 	{
 		String t[] = ver.split("/");
-		return VERSION >= Float.parseFloat(t[1]);
+		return Constants.VERSION >= Float.parseFloat(t[1]);
 	}
 	
 	public static String getOS()
@@ -38,7 +36,7 @@ public class Utils {
 	
 	public static String getVersionString()
 	{
-		return "P2P-CI/"+VERSION;
+		return "P2P-CI/"+Constants.VERSION;
 	}
 
 }
