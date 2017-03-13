@@ -27,6 +27,24 @@ public class ResponseP2P {
 		}
 	}
 	
+	public ResponseP2P(DataInputStream dis, DataOutputStream dos)
+	{
+		headers = new HashMap<>();
+		
+		try 
+		{
+			parseFirstLine(dis);
+			while(parseLine(dis));
+			if(status == 200)//No data when error response is sent
+				pushData(dis,dos);
+		}
+		catch (IOException e) 
+		{
+			System.err.println("Error occured while parsing response");
+			e.printStackTrace();
+		}
+	}
+	
 	public ResponseP2P()
 	{
 		headers = new HashMap<>();
@@ -100,6 +118,31 @@ public class ResponseP2P {
 		byte b[] = new byte[len];
 		int n = dis.read(b);
 		this.data = b;
+	}
+	
+	public void pushData(DataInputStream dis, DataOutputStream dos) throws IOException
+	{
+		int orig_len = Integer.parseInt( headers.get("Content-Length") );
+		
+		int rem_len = orig_len;
+		
+		byte b[] = new byte[Math.min(Constants.TRANSFER_CHUNK_SIZE, orig_len)];
+		
+		while(rem_len>=Constants.TRANSFER_CHUNK_SIZE)
+		{
+			int n = dis.read(b);
+			rem_len -= n;
+			
+			dos.write(b, orig_len-rem_len, n);
+		}
+		
+		if(rem_len>0)
+		{
+			byte b1[] = new byte[rem_len];
+			int n = dis.read(b1);
+			dos.write(b1, orig_len - rem_len, n);
+		}
+		
 	}
 	
 	public void addHeaderField(String k, String v)
