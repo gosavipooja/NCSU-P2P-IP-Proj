@@ -122,6 +122,8 @@ public class ResponseP2P {
 	
 	public void pushData(DataInputStream dis, DataOutputStream dos) throws IOException
 	{
+		System.out.println("Using optimized code");
+		
 		int orig_len = Integer.parseInt( headers.get("Content-Length") );
 		
 		int rem_len = orig_len;
@@ -131,16 +133,15 @@ public class ResponseP2P {
 		while(rem_len>=Constants.TRANSFER_CHUNK_SIZE)
 		{
 			int n = dis.read(b);
+			dos.write(b);
 			rem_len -= n;
-			
-			dos.write(b, orig_len-rem_len, n);
 		}
 		
 		if(rem_len>0)
 		{
 			byte b1[] = new byte[rem_len];
 			int n = dis.read(b1);
-			dos.write(b1, orig_len - rem_len, n);
+			dos.write(b1);
 		}
 		
 	}
