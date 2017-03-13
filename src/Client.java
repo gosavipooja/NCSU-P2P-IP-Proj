@@ -45,7 +45,7 @@ public class Client
 		
 		while(n>0)
 		{
-			System.out.print("Enter the RFC number (0 to exit): ");
+			System.out.print("\n\nEnter the RFC number (0 to exit): ");
 			try 
 			{
 				n = Integer.parseInt(br.readLine());

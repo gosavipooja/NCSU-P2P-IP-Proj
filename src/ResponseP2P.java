@@ -172,6 +172,25 @@ public class ResponseP2P {
 		
 	}
 	
+	public void sendHeaders(DataOutputStream dos)
+	{
+		try 
+		{
+			dos.writeBytes(Utils.getVersionString()+" "+status+" "+phrase+"\r\n");
+			for(String k:headers.keySet())
+			{
+				dos.writeBytes(k+": "+headers.get(k)+"\r\n");
+			}
+			
+			dos.writeBytes("\r\n");
+		} 
+		
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
 	public static ResponseP2P createResponse(RequestP2P req)
 	{
 		ResponseP2P resp;
@@ -200,6 +219,46 @@ public class ResponseP2P {
 			{
 				DataInputStream dis = new DataInputStream(new FileInputStream(file));
 				resp.getData(dis);
+			} 
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+			}
+		}
+		
+		return resp;
+	}
+	
+	public static ResponseP2P createAndSendResponse(RequestP2P req, DataOutputStream sock_dos)
+	{
+		ResponseP2P resp;
+		File file = getRFCFile(req);
+
+		//Validate the request
+		if(!req.method.equalsIgnoreCase("GET"))
+			resp = ResponseP2P.createResponseHeaders(400);//Bad request as method is not supported
+		
+		else if(!Utils.isVersionSupported(req.version))
+			resp = ResponseP2P.createResponseHeaders(505);//Send 505 Version not supported error
+		
+		else if (!file.exists()) 
+			resp = ResponseP2P.createResponseHeaders(404);//send 404 Not Found
+		
+		else 
+		{
+			//Create new ResponseP2P object with 200 OK status 
+			resp = ResponseP2P.createResponseHeaders(200);
+			
+			resp.addHeaderField("Last-Modified",Utils.getLastModified(file));
+			resp.addHeaderField("Content-Length", file.length()+"");
+			resp.addHeaderField("Content-Type", "text/plain");
+			
+			//Push the file through the socket
+			try 
+			{
+				DataInputStream file_dis = new DataInputStream(new FileInputStream(file));
+				resp.sendHeaders(sock_dos);
+				resp.pushData(file_dis, sock_dos);
 			} 
 			catch (Exception e) 
 			{

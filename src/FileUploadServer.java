@@ -47,14 +47,14 @@ public class FileUploadServer implements Runnable {
 	private class Uploader implements Runnable
 	{
 		Socket sock;
-		DataOutputStream dos;
-		DataInputStream dis;
+		DataOutputStream sock_dos;
+		DataInputStream sock_dis;
 		
 		public Uploader(Socket sock) throws IOException
 		{
 			this.sock = sock;
-			dos = new DataOutputStream(sock.getOutputStream());
-			dis = new DataInputStream(sock.getInputStream());
+			sock_dos = new DataOutputStream(sock.getOutputStream());
+			sock_dis = new DataInputStream(sock.getInputStream());
 		}
 		
 		@Override
@@ -65,9 +65,9 @@ public class FileUploadServer implements Runnable {
 //				dos.writeBytes("You are connected\n\r");
 				while(true)
 				{
-					RequestP2P req = new RequestP2P(dis);
-					ResponseP2P resp = ResponseP2P.createResponse(req);
-					resp.sendResponse(dos);
+					RequestP2P req = new RequestP2P(sock_dis);
+					ResponseP2P resp = ResponseP2P.createAndSendResponse(req, sock_dos);
+//					resp.sendResponse(dos);
 				}
 				
 			} 
