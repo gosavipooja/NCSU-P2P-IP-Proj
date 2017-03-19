@@ -76,7 +76,7 @@ public class Client
 		Client client = Client.getClient();
 		client.init();
 		
-		
-		client.showMenu();
+		new ClientGUI();
+//		client.showMenu();
 	}
 }
