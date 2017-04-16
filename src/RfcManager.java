@@ -4,8 +4,14 @@ public class RfcManager {
 
 	private ArrayList<RFC> rfc_list;
 	
-	private static RfcManager instance;
-	
+	public ArrayList<RFC> getRfc_list() {
+		return rfc_list;
+	}
+
+	public void setRfc_list(ArrayList<RFC> rfc_list) {
+		this.rfc_list = rfc_list;
+	}
+
 	private RfcManager()
 	{
 		rfc_list = new ArrayList<RFC>();
@@ -33,6 +39,8 @@ public class RfcManager {
 		return peerList;
 	}
 	
+	private static RfcManager instance;
+
 	/*
 	 * Find RFC by title 
 	 */

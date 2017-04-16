@@ -3,14 +3,17 @@ public class RFC implements Comparable<RFC>{
 	
 	int rfc_num;
 	String title;
-	String host_name;
 	Peer peer;
+	
+	public RFC(){
+		
+	}
 	
 	public RFC(int num, String title, String host_name)
 	{
 		this.rfc_num = num;
 		this.title = title;
-		this.host_name = host_name;
+		//this.host_name = host_name;
 		this.peer = PeerManager.getPeerManager().locatePeer(host_name);
 	}
 
@@ -25,7 +28,7 @@ public class RFC implements Comparable<RFC>{
 	@Override
 	public String toString()
 	{
-		return "[RFC "+rfc_num+" | Title: "+title+" | Host: "+host_name;
+		return "RFC "+rfc_num+" "+title+" "+peer;
 	}
 	
 
