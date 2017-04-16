@@ -6,7 +6,9 @@ public class RFC implements Comparable<RFC>{
 	Peer peer;
 	
 	public RFC(){
-		
+		this.rfc_num = -1;
+		this.title = "";
+		this.peer = new Peer();
 	}
 	
 	public RFC(int num, String title, String host_name)

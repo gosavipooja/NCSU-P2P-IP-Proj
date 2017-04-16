@@ -6,6 +6,9 @@ public class Peer {
 		this.hostName = hostName;
 		this.portNumber = portNumber;
 	}
+	public Peer() {
+		// TODO Auto-generated constructor stub
+	}
 	public String getHostName() {
 		return hostName;
 	}

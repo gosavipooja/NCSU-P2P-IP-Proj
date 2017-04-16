@@ -51,7 +51,7 @@ public class ResponseP2S {
 		if(line.compareTo("")==0 || line==null)
 			return false;
 		
-		while(line!=null || line!="\\s+"){
+		//while(line!=null && line!="\\s+"){
 			String tokens[] = line.split(" ");
 			RFC rfc = new RFC();
 			rfc.rfc_num = Integer.parseInt(tokens[2]);
@@ -64,7 +64,7 @@ public class ResponseP2S {
 			rfc.peer = peer;
 			
 			listOfRFCS.add(rfc);
-		}
+		//}
 		return true;
 	}
 	
@@ -131,7 +131,7 @@ public class ResponseP2S {
 			RFC rfc = req.rfc;
 			resp.listOfRFCS.add(rfc);
 		}else if(req.type.equalsIgnoreCase("LOOKUP")){
-			ArrayList<Peer> peers = RfcManager.getRfcManager().findRFC(req.rfcNum);
+			ArrayList<Peer> peers = RfcManager.getRfcManager().findRFC(req.rfc.rfc_num);
 			for(Peer peer: peers){
 				RFC rfc = new RFC();
 				rfc.peer = peer;
