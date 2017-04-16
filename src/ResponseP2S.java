@@ -99,7 +99,7 @@ public class ResponseP2S {
 	{
 		ResponseP2S resp;
 		//Validate the request
-		if(!req.method.equalsIgnoreCase("GET"))
+		if(!req.type.equalsIgnoreCase("ADD") || !req.type.equalsIgnoreCase("LOOKUP") || !req.type.equalsIgnoreCase("LIST"))
 			resp = ResponseP2S.createResponseHeaders(400);//Bad request as method is not supported
 		
 		else if(!Utils.isVersionSupported(req.version))
