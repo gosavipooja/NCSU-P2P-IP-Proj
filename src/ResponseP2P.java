@@ -39,6 +39,8 @@ public class ResponseP2P {
 			while(parseLine(dis));
 			if(status == 200)//No data when error response is sent
 				pushData(dis,dos);
+			else
+				System.out.println("FAILURE:  Status = "+status);
 		}
 		catch (IOException e) 
 		{
