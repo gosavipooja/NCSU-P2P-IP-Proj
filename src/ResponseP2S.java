@@ -17,7 +17,16 @@ public class ResponseP2S {
 		try 
 		{
 			parseFirstLine(dis);
-			while(parseLine(dis));
+			//There is CR-LF after the headers' line, so ignore that line
+			parseLine(dis);
+			
+/*			while(false)
+			{
+				String line = dis.readLine();
+				if(line!=null)
+					System.out.println(line);
+			}
+*/			while(parseLine(dis));
 		}
 		catch (IOException e) 
 		{
@@ -49,15 +58,18 @@ public class ResponseP2S {
 	{
 		String line = dis.readLine();
 		
-		if(line.compareTo("")==0 || line==null)
+		if(line == null)
+			return false;
+		
+		if(line.compareTo("")==0)
 			return false;
 		
 		//while(line!=null && line!="\\s+"){
 			String tokens[] = line.split(" ");
 			RFC rfc = new RFC();
-			rfc.rfc_num = Integer.parseInt(tokens[2]);
+			rfc.rfc_num = Integer.parseInt(tokens[1]);
 			String title = "";
-			for(int i = 3;i < tokens.length - 2;i++){
+			for(int i = 2;i < tokens.length - 2;i++){
 				title = title + tokens[i]+ " ";
 			}
 			rfc.title = title;
@@ -110,7 +122,7 @@ public class ResponseP2S {
 		{
 			//Create new ResponseP2P object with 200 OK status 
 			resp = ResponseP2S.createResponseHeaders(200);
-			resp = ResponseP2S.createResponse(req);	
+			resp = ResponseP2S.createResponse(req,resp);	
 			
 			//Send the list of files
 			try 
@@ -130,8 +142,7 @@ public class ResponseP2S {
 		return resp;
 	}
 	
-	public static ResponseP2S createResponse(RequestP2S req){
-		ResponseP2S resp = new ResponseP2S();
+	public static ResponseP2S createResponse(RequestP2S req, ResponseP2S resp){
 		
 		if(req.type.equalsIgnoreCase("ADD"))
 		{
@@ -192,6 +203,7 @@ public class ResponseP2S {
 				dos.writeBytes(rfc.toString());
 				dos.writeBytes("\r\n");
 			}
+			dos.writeBytes("\r\n");
 		}catch (IOException e) {
 			e.printStackTrace();
 		}

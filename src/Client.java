@@ -69,8 +69,8 @@ public class Client
 				System.out.println("Enter the title: ");
 				String title = br.readLine();
 				
-				//Get teh response object after sending the LOOKUP request
-				ResponseP2S resp = fdc.getLookupResp(n, title, s_ip, s_port);
+				//Get the response object after sending the LOOKUP request
+				ResponseP2S resp = fdc.getLookupResp(-1, title, s_ip, s_port);
 				
 				//Show error message if any received from the server
 				if(resp.status != 200)
@@ -88,17 +88,18 @@ public class Client
 				}
 				
 				//Show the peer list to client and get his option
-				for (int i=0; i<peerList.size();i++)
+				for (int i=0; i<resp.listOfRFCS.size();i++)
 				{
-					System.out.println(""+(i+1)+". "+peerList.get(i));
+					System.out.println(""+(i+1)+". "+resp.listOfRFCS.get(i));
 				}
-				System.out.println("Enter the peer from whom you want to download");
+				System.out.print("\nEnter the peer from whom you want to download: ");
 				int p_choice = Integer.parseInt(br.readLine())-1;
 				
+				Peer p = resp.listOfRFCS.get(p_choice).peer;
 				//Request the download from that particular peer
 				boolean status = fdc.requestFileDownload(n, title, 
-						peerList.get(p_choice).getHostName(), 
-						peerList.get(p_choice).getPortNumber());
+						p.getHostName(), 
+						p.getPortNumber());
 				
 				if(status)
 				{
