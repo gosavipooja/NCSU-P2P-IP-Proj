@@ -64,14 +64,25 @@ public class Client
 		//Adds the local RFC files to index
 		addLocalFiles2Index(s_ip,s_port);
 		
-		while(n>0)
+		while(n!=0)
 		{
-			System.out.print("\n\nEnter the RFC number (0 to exit): ");
 			try 
 			{
+				System.out.print("\n\nEnter the RFC number (0 to exit, -1 to LIST ALL,  -2 to ADD): ");
 				n = Integer.parseInt(br.readLine());
-				System.out.println("Enter the title: ");
-				String title = br.readLine();
+				
+//				System.out.println("Enter the title: ");
+//				String title = br.readLine();
+				String title = " ";
+				
+				if(n==-2)
+				{
+					System.out.print("RFC number to be added: ");
+					int r_n = Integer.parseInt(br.readLine());
+					
+					createAndSendAddReq(r_n, " ", s_ip, s_port);
+					continue;
+				}
 				
 				//Get the response object after sending the LOOKUP request
 				ResponseP2S resp = fdc.getLookupResp(n, title, s_ip, s_port);
@@ -101,7 +112,7 @@ public class Client
 				
 				Peer p = resp.listOfRFCS.get(p_choice).peer;
 				//Request the download from that particular peer
-				boolean status = fdc.requestFileDownload(n, title, 
+				boolean status = fdc.requestFileDownload(resp.listOfRFCS.get(p_choice).rfc_num, title, 
 						p.getHostName(), 
 						p.getPortNumber());
 				
@@ -110,7 +121,8 @@ public class Client
 					System.out.println("Download Success!");
 					
 					//Send a request to add file to the server index
-					createAndSendAddReq(n, title, s_ip, s_port);
+					createAndSendAddReq(resp.listOfRFCS.get(p_choice).rfc_num,
+							title, s_ip, s_port);
 					
 					System.out.println("File added to index");
 				}

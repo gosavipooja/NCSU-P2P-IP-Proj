@@ -15,13 +15,18 @@ public class FileDownloadClient {
 	/* Fetch the peers list for a particular RFC */
 	public ResponseP2S getLookupResp(int rfcNum, String title, String s_ip,int s_port) throws Exception
 	{
+		String method = "lookup";
+		
+		if(rfcNum==-1)
+			method = "list";
+		
 		// Connect to server
 		Socket sock = new Socket(s_ip,s_port);
 		DataInputStream dis = new DataInputStream(sock.getInputStream());
 		DataOutputStream dos = new DataOutputStream(sock.getOutputStream());
 		
 		//Create P2S request
-		RequestP2S req = RequestP2S.createRequest("lookup", rfcNum, title);
+		RequestP2S req = RequestP2S.createRequest(method, rfcNum, title);
 		
 		//Send the P2S request to server
 		req.sendRequest(dos);

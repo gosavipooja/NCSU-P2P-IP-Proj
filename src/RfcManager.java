@@ -61,11 +61,14 @@ public class RfcManager {
 	{
 		RFC r = new RFC(num,title,hostname);
 		rfc_list.add(r);
+		
+		PeerManager.getPeerManager().addPeer(r.peer.getHostName(), r.peer.getPortNumber());
 	}
 	
 	public void addRfc(RFC r)
 	{
-		rfc_list.add(r);
+		if(!rfc_list.contains(r))
+			rfc_list.add(r);
 	}
 	
 	private int getIndex(int rfc_num)

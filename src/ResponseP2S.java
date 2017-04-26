@@ -123,7 +123,7 @@ public class ResponseP2S {
 		else if(!Utils.isVersionSupported(req.version))
 			resp = ResponseP2S.createResponseHeaders(505);//Send 505 Version not supported error
 		
-		else if(RfcManager.getRfcManager().findRFC(req.rfc.rfc_num).size() == 0 && !req.type.equalsIgnoreCase("ADD"))
+		else if(RfcManager.getRfcManager().findRFC(req.rfc.rfc_num).size() == 0 && req.type.equalsIgnoreCase("LOOKUP"))
 			resp = ResponseP2S.createResponseHeaders(404);//Send 404 not found
 		
 		else 

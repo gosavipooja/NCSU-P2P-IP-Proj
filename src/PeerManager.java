@@ -24,7 +24,9 @@ public class PeerManager {
 		if(listOfPeers == null){
 			listOfPeers = new ArrayList<Peer>();
 		}
-		listOfPeers.add(p);
+		
+		if(!listOfPeers.contains(p))
+			listOfPeers.add(p);
 		System.out.println("Added!");
 	}
 	
