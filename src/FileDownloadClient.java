@@ -78,7 +78,7 @@ public class FileDownloadClient {
 	
 	public boolean downloadAndSaveFile(DataInputStream dis, int rfcNum) throws Exception
 	{
-		DataOutputStream dos = new DataOutputStream(new FileOutputStream("RFC/RFC "+rfcNum+"_out.txt"));
+		DataOutputStream dos = new DataOutputStream(new FileOutputStream("RFC/RFC "+rfcNum+".txt"));
 		ResponseP2P resp = new ResponseP2P(dis,dos);
 		
 		dos.close();
