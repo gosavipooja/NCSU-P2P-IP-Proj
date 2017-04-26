@@ -83,6 +83,9 @@ public class FileDownloadClient {
 		
 		dos.close();
 		
+		if(resp.status!=200)
+			return false;
+		
 		return true;
 	}
 	
