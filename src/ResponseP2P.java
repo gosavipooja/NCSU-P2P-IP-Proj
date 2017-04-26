@@ -1,4 +1,5 @@
 import java.io.*;
+import java.nio.file.Files;
 import java.util.*;
 
 public class ResponseP2P {
@@ -130,7 +131,13 @@ public class ResponseP2P {
 		int rem_len = orig_len;
 		
 		byte b[] = new byte[Math.min(Constants.TRANSFER_CHUNK_SIZE, orig_len)];
+		int g = dis.read();
 		
+		while(g != -1) {
+			dos.writeByte(g);
+			g = dis.read();
+		}
+	/*	
 		while(rem_len>=Constants.TRANSFER_CHUNK_SIZE)
 		{
 			int n = dis.read(b);
@@ -143,7 +150,7 @@ public class ResponseP2P {
 			byte b1[] = new byte[rem_len];
 			int n = dis.read(b1);
 			dos.write(b1);
-		}
+		}*/
 		
 	}
 	

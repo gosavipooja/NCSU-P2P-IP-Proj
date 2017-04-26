@@ -63,12 +63,12 @@ public class FileUploadServer implements Runnable {
 			try 
 			{
 //				dos.writeBytes("You are connected\n\r");
-				while(true)
-				{
+/*				while(true)
+				{*/
 					RequestP2P req = new RequestP2P(sock_dis);
 					ResponseP2P resp = ResponseP2P.createAndSendResponse(req, sock_dos);
 //					resp.sendResponse(dos);
-				}
+//				}
 				
 			} 
 			catch (Exception e) 
