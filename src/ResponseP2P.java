@@ -27,6 +27,7 @@ public class ResponseP2P {
 		}
 	}
 	
+	/* Reads the data in the response and writes it to a file */
 	public ResponseP2P(DataInputStream dis, DataOutputStream dos)
 	{
 		headers = new HashMap<>();
@@ -264,8 +265,11 @@ public class ResponseP2P {
 			{
 				e.printStackTrace();
 			}
+			return resp;
 		}
 		
+		// Sent only for error cases
+		resp.sendHeaders(sock_dos);
 		return resp;
 	}
 	

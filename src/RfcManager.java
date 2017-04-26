@@ -12,7 +12,7 @@ public class RfcManager {
 		this.rfc_list = rfc_list;
 	}
 
-	private RfcManager()
+	public RfcManager()
 	{
 		rfc_list = new ArrayList<RFC>();
 	}

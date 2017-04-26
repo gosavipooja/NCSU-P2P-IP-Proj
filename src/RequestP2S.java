@@ -18,7 +18,7 @@ public class RequestP2S {
 	public RequestP2S(DataInputStream dis) throws IOException {
 		headers = new HashMap<>();
 		
-		RFC rfc = parseFirstLine(dis);
+		rfc = parseFirstLine(dis);
 		while(parseLine(dis,rfc));
 	}
 	
@@ -30,6 +30,7 @@ public class RequestP2S {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		String[] tokens = line.split(" ");
 		this.type = tokens[0];
 		//Ignore tokens[1]="RFC"
@@ -39,6 +40,7 @@ public class RequestP2S {
 		return rfc;
 	}
 	
+	@SuppressWarnings("deprecation")
 	public boolean parseLine(DataInputStream dis, RFC rfc){
 		
 		String line = "";
@@ -58,13 +60,23 @@ public class RequestP2S {
 		headers.put(tokens[0], tokens[1]);
 		if(tokens[0].equalsIgnoreCase("Host")){
 			rfc.peer.setHostName(tokens[1]);
-		}else {
+			addHeaderField("Host", tokens[1]);
+		}
+		else if(tokens[0].equalsIgnoreCase("Title"))
+		{
+			addHeaderField("Title", tokens[1]);
+			rfc.title = tokens[1];
+		}
+		else {
+			
+			addHeaderField("Port", 
+					tokens[1]);
 			rfc.peer.setPortNumber(Integer.parseInt(tokens[1]));
 		}
 		return true;
 	}
 	
-	public static RequestP2S createRequest(String requestType,int rfcNum)
+	public static RequestP2S createRequest(String requestType,int rfcNum, String title)
 	{
 		RequestP2S req = new RequestP2S();
 				
@@ -76,11 +88,12 @@ public class RequestP2S {
 		
 			
 		req.addHeaderField("Host", Utils.getIPAddr());
-		req.addHeaderField("OS", Utils.getOS());
-		RFC rfc = new RFC();
-		rfc.rfc_num = rfcNum;
-		rfc.peer.setHostName(Utils.getIPAddr());
-		rfc.peer.setPortNumber(Integer.parseInt("5678"));
+		req.addHeaderField("Port", "5678");
+		req.addHeaderField("Title", title);
+		req.rfc = new RFC();
+		req.rfc.rfc_num = rfcNum;
+/*		req.rfc.peer.setHostName(Utils.getIPAddr());
+		req.rfc.peer.setPortNumber(Integer.parseInt("5678"));*/
 		req.version = Utils.getVersionString();
 			
 		return req;

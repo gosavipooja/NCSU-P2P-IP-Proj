@@ -28,6 +28,7 @@ public class ResponseP2S {
 	
 	
 	public ResponseP2S() {
+		listOfRFCS = new ArrayList<RFC>();
 		// TODO Auto-generated constructor stub
 	}
 
@@ -99,7 +100,7 @@ public class ResponseP2S {
 	{
 		ResponseP2S resp;
 		//Validate the request
-		if(!req.type.equalsIgnoreCase("ADD") || !req.type.equalsIgnoreCase("LOOKUP") || !req.type.equalsIgnoreCase("LIST"))
+		if(!req.type.equalsIgnoreCase("ADD") && !req.type.equalsIgnoreCase("LOOKUP") && !req.type.equalsIgnoreCase("LIST"))
 			resp = ResponseP2S.createResponseHeaders(400);//Bad request as method is not supported
 		
 		else if(!Utils.isVersionSupported(req.version))
@@ -110,7 +111,8 @@ public class ResponseP2S {
 			//Create new ResponseP2P object with 200 OK status 
 			resp = ResponseP2S.createResponseHeaders(200);
 			resp = ResponseP2S.createResponse(req);	
-			//Push the file through the socket
+			
+			//Send the list of files
 			try 
 			{
 				resp.sendHeaders(sock_dos);
@@ -120,17 +122,38 @@ public class ResponseP2S {
 			{
 				e.printStackTrace();
 			}
+			
+			return resp;
 		}
 		
+		resp.sendHeaders(sock_dos);
 		return resp;
 	}
 	
 	public static ResponseP2S createResponse(RequestP2S req){
 		ResponseP2S resp = new ResponseP2S();
-		if(req.type.equalsIgnoreCase("ADD")){
-			RFC rfc = req.rfc;
-			resp.listOfRFCS.add(rfc);
-		}else if(req.type.equalsIgnoreCase("LOOKUP")){
+		
+		if(req.type.equalsIgnoreCase("ADD"))
+		{
+			Peer p = new Peer(req.getHeaderField("Host"), 
+					Integer.parseInt(req.getHeaderField("Port")));
+			
+			
+			RFC rfc = new RFC();
+			rfc.rfc_num = req.rfc.rfc_num;
+			rfc.title = req.getHeaderField("Title");
+			rfc.peer = p;
+			
+			//TODO: ask pooja why this was added
+//			resp.listOfRFCS.add(rfc);
+			
+			//Add it to RFC manager
+			RfcManager.getRfcManager().addRfc(rfc);
+			System.out.println("Added RFC "+rfc.rfc_num+" to list");
+		}
+		
+		else if(req.type.equalsIgnoreCase("LOOKUP"))
+		{
 			ArrayList<Peer> peers = RfcManager.getRfcManager().findRFC(req.rfc.rfc_num);
 			for(Peer peer: peers){
 				RFC rfc = new RFC();
@@ -140,9 +163,11 @@ public class ResponseP2S {
 				
 				resp.listOfRFCS.add(rfc);
 			}
-		}else if(req.type.equalsIgnoreCase("LIST")){
+		}
+		else if(req.type.equalsIgnoreCase("LIST")){
 			resp.listOfRFCS.addAll(RfcManager.getRfcManager().getRfc_list());
-		}else{
+		}
+		else{
 			//Error
 		}
 		return resp;

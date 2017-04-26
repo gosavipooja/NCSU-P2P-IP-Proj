@@ -1,10 +1,10 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.*;
 
 public class ClientGUI {
+	
 	private JTextField textInput;
 	private  JProgressBar progressBar;
 	private JPanel listPanel;

@@ -14,11 +14,14 @@ public class TestClass {
 //		m.checkResponseP2P();
 //		m.checkRequestP2P();
 //		m.checkRequestResponse();
-		if(args[0].equalsIgnoreCase("s"))
-			m.checkFileServer();
 		
-		else if(args[0].equalsIgnoreCase("c"))
-			m.checkFileClient();
+//		if(args[0].equalsIgnoreCase("s"))
+//			m.checkFileServer();
+//		
+//		else if(args[0].equalsIgnoreCase("c"))
+//			m.checkFileClient();
+		
+		System.out.println(Utils.getIPAddr());
 		
 	}
 	
@@ -32,7 +35,7 @@ public class TestClass {
 	{
 		FileDownloadClient f = new FileDownloadClient();
 		try {
-			f.requestFileDownload(761, "");
+			f.requestFileDownload(761, "","127.0.0.1",7734);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
