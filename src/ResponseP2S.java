@@ -101,7 +101,12 @@ public class ResponseP2S {
 			case 400:
 				resp.status = 400;
 				resp.phrase = "Bad Request";
-				break;				
+				break;	
+				
+			case 404:
+				resp.status = 404;
+				resp.phrase = "Not Found";
+				break;
 		}
 
 		return resp;
@@ -118,7 +123,7 @@ public class ResponseP2S {
 		else if(!Utils.isVersionSupported(req.version))
 			resp = ResponseP2S.createResponseHeaders(505);//Send 505 Version not supported error
 		
-		else if(RfcManager.getRfcManager().findRFC(req.rfc.rfc_num).size() == 0)
+		else if(RfcManager.getRfcManager().findRFC(req.rfc.rfc_num).size() == 0 && !req.type.equalsIgnoreCase("ADD"))
 			resp = ResponseP2S.createResponseHeaders(404);//Send 404 not found
 		
 		else 

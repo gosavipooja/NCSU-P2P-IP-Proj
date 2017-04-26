@@ -149,8 +149,8 @@ public class Client
 	
 	public static void main(String args[]) throws IOException
 	{
-		int port = 5127;
-		port = Integer.parseInt(args[0]);
+		int port = 5678;
+//		port = Integer.parseInt(args[0]);
 		
 		Client.createInstance(port);
 		Client client = Client.getClient();
