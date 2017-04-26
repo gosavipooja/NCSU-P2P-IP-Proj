@@ -5,7 +5,9 @@ import java.text.SimpleDateFormat;
 
 public class Utils {
 	
-	public static String getIPAddr()
+	public static String my_ip = "";
+	
+	public static String getIPAddr2()
 	{
 		try {
 			return Inet4Address.getLocalHost().getHostAddress();
@@ -14,6 +16,11 @@ public class Utils {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public static String getIPAddr()
+	{
+		return my_ip;
 	}
 	
 	public static boolean isVersionSupported(String ver)

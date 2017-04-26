@@ -21,7 +21,7 @@ public class FileDownloadClient {
 		DataOutputStream dos = new DataOutputStream(sock.getOutputStream());
 		
 		//Create P2S request
-		RequestP2S req = RequestP2S.createRequest("list", rfcNum, title);
+		RequestP2S req = RequestP2S.createRequest("lookup", rfcNum, title);
 		
 		//Send the P2S request to server
 		req.sendRequest(dos);

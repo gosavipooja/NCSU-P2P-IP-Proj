@@ -118,6 +118,9 @@ public class ResponseP2S {
 		else if(!Utils.isVersionSupported(req.version))
 			resp = ResponseP2S.createResponseHeaders(505);//Send 505 Version not supported error
 		
+		else if(RfcManager.getRfcManager().findRFC(req.rfc.rfc_num).size() == 0)
+			resp = ResponseP2S.createResponseHeaders(404);//Send 404 not found
+		
 		else 
 		{
 			//Create new ResponseP2P object with 200 OK status 

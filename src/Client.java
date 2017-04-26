@@ -51,8 +51,12 @@ public class Client
 		
 		int n=1;
 		
+		System.out.println("Enter the client's public IP: ");
+		String my_ip = br.readLine();
+		Utils.my_ip = my_ip;
+		
 		System.out.print("Enter Server IP: ");
-		String s_ip = "127.0.0.1";//br.readLine();
+		String s_ip = br.readLine();
 		
 		System.out.print("Enter Server Port: ");
 		int s_port = 7734;//Integer.parseInt(br.readLine());
@@ -70,7 +74,7 @@ public class Client
 				String title = br.readLine();
 				
 				//Get the response object after sending the LOOKUP request
-				ResponseP2S resp = fdc.getLookupResp(-1, title, s_ip, s_port);
+				ResponseP2S resp = fdc.getLookupResp(n, title, s_ip, s_port);
 				
 				//Show error message if any received from the server
 				if(resp.status != 200)
