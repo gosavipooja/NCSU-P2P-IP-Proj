@@ -14,6 +14,7 @@ public class ResponseP2S {
 	{
 		listOfRFCS = new ArrayList<RFC>();
 		
+		System.out.println("\n\nSTART of Received Response:\n");
 		try 
 		{
 			parseFirstLine(dis);
@@ -27,6 +28,8 @@ public class ResponseP2S {
 					System.out.println(line);
 			}
 */			while(parseLine(dis));
+
+			System.out.println("\nEND of Receiver Response\n\n\n");
 		}
 		catch (IOException e) 
 		{
@@ -52,6 +55,8 @@ public class ResponseP2S {
 		phrase="";
 		for(int i=2;i<tokens.length;i++)
 			phrase += tokens[i];
+		
+		System.out.println(line);
 	}
 	
 	private boolean parseLine(DataInputStream dis) throws IOException
@@ -78,6 +83,8 @@ public class ResponseP2S {
 			
 			listOfRFCS.add(rfc);
 		//}
+			
+			System.out.println(line);
 		return true;
 	}
 	

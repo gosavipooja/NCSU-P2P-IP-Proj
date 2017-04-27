@@ -16,3 +16,4 @@
 
 9. The server runs at port 7734 and client uses port 5678 for uploading files to other peers.
 
+10. For both LOOKUP and LIST, the user can further provide the choice of the file which he wants to download and where he wants to download it from
